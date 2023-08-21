@@ -11,6 +11,11 @@
 # production
 /build
 
+# Editor/IDE specific
+.vscode/
+.idea/
+
+
 # misc
 .DS_Store
 .env.local
@@ -21,3 +26,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+package-lock.json
