@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import Register from './components/Register';
 
 function App() {
     const [token, setToken] = useState(localStorage.getItem('token'));
+    const [showRegister, setShowRegister] = useState(false);
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -15,13 +17,19 @@ function App() {
         setToken(null);
     };
 
+    const navigateToRegister = () => {
+        setShowRegister(true);
+    };
+
+    const navigateToLogin = () => {
+        setShowRegister(false);
+    };
+
     return (
         <div className="App">
-            {!token ? (
-                <Login onLogin={() => setToken(localStorage.getItem('token'))} />
-            ) : (
-                <Dashboard onLogout={handleLogout} />
-            )}
+            {!token && !showRegister && <Login onLogin={() => setToken(localStorage.getItem('token'))} navigateToRegister={navigateToRegister} />}
+            {!token && showRegister && <Register navigateToLogin={navigateToLogin} />}
+            {token && <Dashboard onLogout={handleLogout} />}
         </div>
     );
 }

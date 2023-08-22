@@ -14,6 +14,10 @@ function Login(props) {
         setPassword(event.target.value);
     };
 
+    const handleRegisterClick = () => {
+        props.navigateToRegister();
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -44,7 +48,7 @@ function Login(props) {
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <TextField
-                        label="Kullanıcı Adı"
+                        label="Kullanıcı Adı veya Email"
                         variant="outlined"
                         fullWidth
                         margin="normal"
@@ -63,10 +67,16 @@ function Login(props) {
                     <Button type="submit" variant="contained" color="primary" fullWidth>
                         Giriş Yap
                     </Button>
+
+                    <Typography variant="body2" align="center">
+                        Hesabınız yok mu?{' '}
+                        <span style={{ color: 'blue', cursor: 'pointer' }} onClick={handleRegisterClick}>
+                            Kayıt Ol
+                        </span>
+                    </Typography>
                 </form>
             </Paper>
         </Container>
     );
 }
-
 export default Login;
