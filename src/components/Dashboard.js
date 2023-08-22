@@ -6,17 +6,21 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ProductDetail from './ProductDetail';
 
 function Dashboard({ onLogout }) {
     const [products, setProducts] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [editOpenDialog, setEditOpenDialog] = useState(false);
-    const [newProduct, setNewProduct] = useState({name: '', description: '', quantity: 0,});
+    const [newProduct, setNewProduct] = useState({ name: '', description: '', quantity: 0 });
     const [editProduct, setEditProduct] = useState(null);
+    const [modalIsOpen, setModalIsOpen] = useState(false); // Modalın açık olup olmadığını saklayan state
+    const [selectedProductForModal, setSelectedProductForModal] = useState(null);
 
     useEffect(() => {
         fetchProducts();
     }, []);
+
 
     const fetchProducts = async () => {
         try {
@@ -30,6 +34,17 @@ function Dashboard({ onLogout }) {
         } catch (error) {
             console.error('Ürünleri getirirken hata oluştu:', error);
         }
+    };
+
+    const handleProductDetail = (product) => {
+        setSelectedProductForModal(product);
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedProductForModal(null);
+        setModalIsOpen(false);
+        fetchProducts();
     };
 
     const handleCreateProduct = async () => {
@@ -60,20 +75,15 @@ function Dashboard({ onLogout }) {
 
     const handleUpdateProduct = async () => {
         try {
-            debugger
             await axios.put(`http://localhost:3000/api/products/${editProduct._id}`, editProduct, {
                 headers: {
                     'auth-token': localStorage.getItem('token'),
                 },
             });
-            debugger
-
             setEditOpenDialog(false);
             setEditProduct(null);
             fetchProducts();
         } catch (error) {
-            debugger
-
             console.error('Ürün güncellenirken hata oluştu:', error);
         }
     };
@@ -142,9 +152,10 @@ function Dashboard({ onLogout }) {
                                     <TableCell>{formatDate(product.createdAt)}</TableCell>
                                     <TableCell>{formatDate(product.updatedAt)}</TableCell>
                                     <TableCell>
-                                        <Button>
+                                        <Button onClick={() => handleProductDetail(product)}>
                                             <VisibilityIcon />
                                         </Button>
+
                                         <Button onClick={() => handleEdit(product)}>
                                             <EditIcon />
                                         </Button>
@@ -158,6 +169,11 @@ function Dashboard({ onLogout }) {
                     </Table>
                 </TableContainer>
             </Container>
+            <ProductDetail
+                selectedProduct={selectedProductForModal}
+                modalIsOpen={modalIsOpen}
+                closeModal={closeModal}
+            />
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
                 <DialogTitle>Yeni Ürün Ekle</DialogTitle>
                 <DialogContent>
