@@ -3,18 +3,18 @@
 Base Url:
 localhost:3000/api/
 
-Case:
+## Case:
 
-Ürün Yönetimi;
+### Ürün Yönetimi;
 
 Bir firmanın ürünlerinin listesinin tutulduğu ve bu ürünlerin giriş
 çıkışlarının yapılıp listelendiği projenin arayüz ve backendinin hazırlanması
 
 
-Şemalar:
+### Şemalar:
 
 
-Kullanıcılar;
+#### Kullanıcılar;
 
 Adı           : string
 
@@ -25,7 +25,7 @@ Kullanıcı Adı : string
 Email         : string
 
 
-Ürünler;
+#### Ürünler;
 
 Ürün Adı            : string
 
@@ -36,14 +36,14 @@ Email         : string
 Stoktaki Ürün Adedi : number
 
 
-Ürün Hareketleri;
+#### Ürün Hareketleri;
 
 Hareket Açıklaması  : string
 
 Giriş/Çıkış Adedi   : number
 
 
-Koşullar:
+### Koşullar:
 
 · Programlama dili olarak backend tarafında Node.js (Express ya da
 Koa Framework tercih edilmeli), Database olarak MongoDB,
